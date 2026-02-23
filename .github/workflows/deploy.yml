@@ -22,3 +22,9 @@ jobs:
     - name: Deploy to S3
       run: |
         aws s3 sync . s3://${{ secrets.AWS_BUCKET_NAME }} --delete --exclude ".git/*"
+        
+    - name: Notify Slack
+      run: |
+        curl -X POST -H 'Content-type: application/json' \
+        --data '{"text":"✅ AWS Deployment Successful!"}' \
+        ${{ secrets.SLACK_WEBHOOK_URL }}
